@@ -1,0 +1,41 @@
+name: CSV Conversion Workflow
+
+# Allows manual trigger via GitHub UI
+on:
+  workflow_dispatch:
+    inputs:
+      csv_file:
+        description: 'CSV file to upload'
+        required: true
+        type: file
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas
+
+    - name: Upload CSV file and process
+      run: |
+        mkdir -p input_files output_files
+        mv ${{ github.event.inputs.csv_file }} input_files/Contact_export.csv
+        python convert.py  # Run your script here
+        mv output.csv output_files/  # Move output to the proper directory
+
+    - name: Upload the resulting CSV file
+      uses: actions/upload-artifact@v2
+      with:
+        name: output-file
+        path: output_files/output.csv
