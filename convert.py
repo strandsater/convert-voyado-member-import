@@ -1,4 +1,9 @@
 import pandas as pd
+import os
+
+# Define input and output file paths
+input_file = os.path.join("input_files", "Contact_export.csv")
+output_file = os.path.join("output_files", "output.csv")
 
 # Load CSV file with UTF-8 encoding
 df = pd.read_csv("Contact_export.csv", sep=None, engine="python", encoding='Latin1')
