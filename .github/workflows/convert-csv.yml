@@ -36,6 +36,9 @@ jobs:
     #    name: output-file
     #    path: output/output.csv
 
+    - name: Check if token is being passed correctly
+      run: echo ${{ secrets.GH_TOKEN }}
+
     - name: Commit the output CSV back to the repo
       run: |
         git config user.name "strandsater"
