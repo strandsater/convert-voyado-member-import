@@ -30,8 +30,8 @@ jobs:
         echo "Found CSV file: $input_file"
         python convert.py "$input_file"
 
-    - name: Upload the resulting CSV file
-      uses: actions/upload-artifact@v3
-      with:
-        name: output-file
-        path: output/output.csv
+    #- name: Upload the resulting CSV file
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: output-file
+    #    path: output/output.csv
