@@ -1,17 +1,22 @@
 import pandas as pd
 import os
+import sys
 
-# Define input and output file paths
-input_file = os.path.join("input_files", "Contact_export.csv")
+# Take input file path from command-line argument
+if len(sys.argv) < 2:
+    print("❌ No input file provided.")
+    sys.exit(1)
+
+input_file = sys.argv[1]
 output_file = os.path.join("output_files", "output.csv")
 
-# Load CSV file with UTF-8 encoding
-df = pd.read_csv("Contact_export.csv", sep=None, engine="python", encoding='Latin1')
+# Load CSV file (auto-detect separator), handle special encoding
+df = pd.read_csv(input_file, sep=None, engine="python", encoding='Latin1')
 
-# Strip leading/trailing spaces from column names to avoid mismatches
+# Clean column names
 df.columns = df.columns.str.strip()
 
-# Print column names to check if everything is read correctly
+# Print column names
 print("Column names:", df.columns)
 
 # Add extra columns
@@ -25,7 +30,7 @@ df = df.rename(columns={
     'E-post': 'email'
 })
 
-# Save as CSV with UTF-8 encoding and ; separator
-df.to_csv("output.csv", sep=';', index=False, encoding='Latin1')
+# Save output CSV
+df.to_csv(output_file, sep=';', index=False, encoding='Latin1')
 
-print("✅ Columns renamed and saved to CSV with special characters handled.")
+print("✅ CSV processed and saved", output_file)
