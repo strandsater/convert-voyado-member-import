@@ -3,7 +3,7 @@ name: Auto CSV Conversion
 on:
   push:
     paths:
-      - 'input_files/*.csv'  # Trigger only when a CSV is pushed to this folder
+      - 'input/*.csv'  # Trigger only when a CSV is pushed to this folder
 
 jobs:
   convert:
@@ -25,8 +25,8 @@ jobs:
 
     - name: Find and process the uploaded CSV file
       run: |
-        mkdir -p output_files
-        input_file=$(find input_files -name '*.csv' | head -n 1)
+        mkdir -p output
+        input_file=$(find input -name '*.csv' | head -n 1)
         echo "Found CSV file: $input_file"
         python convert.py "$input_file"
 
@@ -34,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: output-file
-        path: output_files/output.csv
+        path: output/output.csv
