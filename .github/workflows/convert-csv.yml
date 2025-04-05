@@ -35,3 +35,11 @@ jobs:
     #  with:
     #    name: output-file
     #    path: output/output.csv
+
+    - name: Commit the output CSV back to the repo
+      run: |
+        git config user.name "Jakob"
+        git config user.email "jakobstrandsater@gmail.com"
+        git add output/output.csv
+        git commit -m "Add processed CSV file"
+        git push origin main
