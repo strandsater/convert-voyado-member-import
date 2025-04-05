@@ -42,4 +42,4 @@ jobs:
         git config user.email "jakobstrandsater@gmail.com"
         git add output/output.csv
         git commit -m "Add processed CSV file"
-        git push origin main
+        git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/strandsater/convert-voyado-member-import.git
