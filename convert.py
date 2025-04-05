@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 input_file = sys.argv[1]
-output_file = os.path.join("output_files", "output.csv")
+output_file = os.path.join("output", "output.csv")
 
 # Load CSV file (auto-detect separator), handle special encoding
 df = pd.read_csv(input_file, sep=None, engine="python", encoding='Latin1')
