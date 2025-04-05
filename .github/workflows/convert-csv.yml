@@ -1,13 +1,9 @@
-name: CSV Conversion Workflow
+name: Auto CSV Conversion
 
-# Allows manual trigger via GitHub UI
 on:
-  workflow_dispatch:
-    inputs:
-      csv_file:
-        description: 'CSV file to upload'
-        required: true
-        type: file
+  push:
+    paths:
+      - 'input_files/*.csv'  # Trigger only when a CSV is pushed to this folder
 
 jobs:
   convert:
@@ -27,12 +23,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas
 
-    - name: Upload CSV file and process
+    - name: Find and process the uploaded CSV file
       run: |
-        mkdir -p input_files output_files
-        mv ${{ github.event.inputs.csv_file }} input_files/Contact_export.csv
-        python convert.py  # Run your script here
-        mv output.csv output_files/  # Move output to the proper directory
+        mkdir -p output_files
+        input_file=$(find input_files -name '*.csv' | head -n 1)
+        echo "Found CSV file: $input_file"
+        python convert.py "$input_file"
 
     - name: Upload the resulting CSV file
       uses: actions/upload-artifact@v2
