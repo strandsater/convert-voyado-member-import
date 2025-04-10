@@ -1,14 +1,22 @@
 import pandas as pd
 import os
-import sys
 
-# Take input file path from command-line argument
-if len(sys.argv) < 2:
-    print("❌ No input file provided.")
-    sys.exit(1)
+# Get the folder where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-input_file = sys.argv[1]
-output_file = os.path.join("output", "output.csv")
+# Look for the first CSV file in the script's directory
+input_file = None
+for file in os.listdir(script_dir):
+    if file.endswith(".csv"):
+        input_file = os.path.join(script_dir, file)
+        break
+
+if not input_file:
+    print("❌ No CSV input file found in the script folder.")
+    exit(1)
+
+# Output file in the same directory
+output_file = os.path.join(script_dir, "output.csv")
 
 # Load CSV file (auto-detect separator), handle special encoding
 df = pd.read_csv(input_file, sep=None, engine="python", encoding='Latin1')
@@ -23,7 +31,7 @@ print("Column names:", df.columns)
 df['_website'] = 'brothers'
 df['group_id'] = '6'
 
-# Rename columns (ensure that 'Förnamn' is exactly correct)
+# Rename columns (ensure names match the source)
 df = df.rename(columns={
     'ï»¿FÃ¶rnamn': 'firstname',
     'Efternamn': 'lastname',
@@ -33,4 +41,4 @@ df = df.rename(columns={
 # Save output CSV
 df.to_csv(output_file, sep=';', index=False, encoding='Latin1')
 
-print("✅ CSV processed and saved", output_file)
+print("✅ CSV processed and saved to:", output_file)
