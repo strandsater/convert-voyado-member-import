@@ -19,7 +19,7 @@ if not input_file:
 output_file = os.path.join(script_dir, "output.csv")
 
 # Load CSV file (auto-detect separator), handle special encoding
-df = pd.read_csv(input_file, sep=None, engine="python", encoding='Latin1')
+df = pd.read_csv(input_file, sep=None, engine="python", encoding='UTF-8-sig')
 
 # Clean column names
 df.columns = df.columns.str.strip()
@@ -33,12 +33,12 @@ df['group_id'] = '6'
 
 # Rename columns (ensure names match the source)
 df = df.rename(columns={
-    'ï»¿FÃ¶rnamn': 'firstname',
+    'Förnamn': 'firstname',
     'Efternamn': 'lastname',
     'E-post': 'email'
 })
 
 # Save output CSV
-df.to_csv(output_file, sep=';', index=False, encoding='Latin1')
+df.to_csv(output_file, sep=';', index=False, encoding='UTF-8-sig')
 
 print("✅ CSV processed and saved to:", output_file)
